@@ -1,0 +1,184 @@
+/* ===== VARIÁVEIS DE COR ===== */
+:root {
+  --p1: #fff0f6;
+  --p2: #ffd1e3;
+  --p3: #ff9dc2;
+  --pink: #ff4d94;
+  --ink: #6b2a48;
+  --shadow: 0 10px 30px rgba(255, 77, 148, .22);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(160deg, #fff0f6, #ffd1e3 55%, #ffb6d3);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-align: center;
+}
+body.locked { overflow: hidden; }
+.hidden { display: none; }
+
+h1, h2, .hero-title, .age-num { font-family: 'Playfair Display', serif; font-weight: 600; }
+h2 { font-size: clamp(1.6rem, 5vw, 2.4rem); margin-bottom: 1.5rem; }
+.lead { font-size: clamp(1.05rem, 3.5vw, 1.4rem); font-weight: 300; max-width: 34ch; margin: 0 auto; }
+
+/* ===== CAMADAS DE EFEITO ===== */
+#bg-decor { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+#bg-decor span {
+  position: absolute; bottom: -10%; opacity: .55;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  from { transform: translateY(0) rotate(0); }
+  to   { transform: translateY(-120vh) rotate(40deg); }
+}
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+#dim { position: fixed; inset: 0; background: rgba(90, 20, 55, .55); opacity: 0; pointer-events: none; transition: opacity .6s; z-index: 40; }
+#dim.on { opacity: 1; pointer-events: auto; }
+
+/* ===== COMPONENTES ===== */
+.glass {
+  background: rgba(255, 255, 255, .55);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, .8);
+  border-radius: 28px; box-shadow: var(--shadow);
+}
+.btn {
+  font: 600 1rem 'Poppins', sans-serif; color: #fff; cursor: pointer;
+  padding: .9rem 1.8rem; border: 0; border-radius: 999px;
+  background: linear-gradient(135deg, #ff7eb3, var(--pink));
+  box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s;
+}
+.btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 34px rgba(255, 77, 148, .4); }
+.btn:active { transform: scale(.96); }
+.btn.big { font-size: 1.25rem; padding: 1.1rem 2.4rem; animation: pulse 2s infinite; }
+@keyframes pulse { 50% { transform: scale(1.06); } }
+
+.sec { position: relative; z-index: 1; padding: 5rem 1.2rem; max-width: 900px; margin: 0 auto; }
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s, transform .9s; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ===== 1. INTRO ===== */
+#intro {
+  position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 1.2rem;
+  background: linear-gradient(160deg, #fff0f6, #ffc2da); transition: opacity .8s, transform .8s;
+}
+#intro.gone { opacity: 0; transform: scale(1.08); pointer-events: none; }
+.intro-box { padding: 2.5rem 1.6rem; max-width: 420px; animation: bob 4s ease-in-out infinite; }
+.intro-box h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); margin: .6rem 0 1.6rem; }
+.intro-emoji { font-size: 3rem; }
+@keyframes bob { 50% { transform: translateY(-10px); } }
+
+/* ===== 2. HERO ===== */
+#hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.4rem; }
+.hero-title {
+  font-size: clamp(2.4rem, 10vw, 5rem); line-height: 1.1; font-style: italic;
+  background: linear-gradient(90deg, #ff4d94, #ff8fb8, #ff4d94); background-size: 200%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+#hero .hero-title { animation: heroIn 1.4s both, shine 5s linear infinite; }
+@keyframes heroIn { from { opacity: 0; transform: translateY(30px) scale(.96); } }
+@keyframes shine { to { background-position: 200%; } }
+.scroll-hint { margin-top: 2rem; font-size: .9rem; opacity: .6; animation: bob 2s infinite; }
+
+/* ===== 3. IDADE ===== */
+.age-num { font-size: clamp(6rem, 30vw, 12rem); line-height: 1; color: var(--pink); text-shadow: 0 8px 30px rgba(255, 77, 148, .35); }
+
+/* ===== 4. CARTA ===== */
+.envelope { position: relative; width: min(340px, 90%); margin: 0 auto 1.6rem; }
+.env-back {
+  position: relative; height: 200px; border-radius: 18px; background: linear-gradient(160deg, #ffb3d1, #ff8fb8);
+  box-shadow: var(--shadow); transition: height .6s, opacity .6s, margin .6s; display: grid; place-items: center;
+}
+.flap {
+  position: absolute; top: 0; left: 0; width: 100%; height: 55%; background: #ff7eb3;
+  clip-path: polygon(0 0, 100% 0, 50% 100%); border-radius: 18px 18px 0 0;
+  transform-origin: top; transition: transform .7s;
+}
+.seal { position: relative; font-size: 2.2rem; margin-top: 2.5rem; z-index: 2; }
+.paper {
+  max-height: 0; overflow: hidden; opacity: 0; background: #fff; border-radius: 18px;
+  padding: 0 1.4rem; box-shadow: var(--shadow); text-align: left; white-space: pre-line;
+  transition: max-height .9s ease, opacity .9s, padding .9s; line-height: 1.7;
+}
+.envelope.open .flap { transform: rotateX(180deg); }
+.envelope.open .env-back { height: 0; opacity: 0; margin-bottom: 0; }
+.envelope.open .paper { max-height: 900px; opacity: 1; padding: 1.6rem 1.4rem; }
+
+/* ===== 5. GALERIA ===== */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .9rem; }
+.photo {
+  position: relative; aspect-ratio: 1; border-radius: 22px; overflow: hidden; cursor: pointer; border: 4px solid #fff;
+  background: linear-gradient(135deg, #ffd1e3, #ff9dc2); box-shadow: var(--shadow); transition: transform .3s;
+  display: grid; place-items: center; font-size: 2.4rem;
+}
+.photo:hover { transform: rotate(-2deg) scale(1.04); }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.photo .cap {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: .4rem; font-size: .8rem; color: #fff;
+  background: linear-gradient(transparent, rgba(107, 42, 72, .7));
+}
+
+/* ===== 6. CARDS ===== */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+.card { padding: 1.4rem 1rem; cursor: pointer; transition: transform .3s; font: inherit; color: inherit; }
+.card:hover { transform: translateY(-6px) rotate(1deg); }
+.card b { display: block; font-size: 1.05rem; }
+.card .msg { max-height: 0; overflow: hidden; opacity: 0; font-size: .92rem; transition: max-height .5s, opacity .5s, margin .5s; }
+.card.on .msg { max-height: 160px; opacity: 1; margin-top: .7rem; }
+
+/* ===== 7. JOGO ===== */
+.game-out { min-height: 120px; display: grid; place-items: center; padding: 1.4rem; margin: 0 auto 1.4rem; max-width: 460px; font-size: 1.3rem; font-weight: 600; }
+.game-out.pop { animation: pop .5s; }
+@keyframes pop { 0% { transform: scale(.7) rotate(-3deg); opacity: 0; } 70% { transform: scale(1.06); } }
+
+/* ===== 8. MENSAGEM GRANDE ===== */
+#big-msg {
+  position: fixed; z-index: 50; left: 50%; top: 50%; width: min(92%, 520px); padding: 2rem 1.4rem;
+  transform: translate(-50%, -40%) scale(.8); opacity: 0; pointer-events: none; transition: .6s;
+}
+#big-msg.on { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+#big-text { font: italic 600 clamp(1.3rem, 5vw, 1.8rem)/1.4 'Playfair Display', serif; margin-bottom: 1rem; }
+#big-extra { margin-bottom: 1.4rem; }
+
+/* ===== 10. MODAL ===== */
+#modal {
+  position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 1rem;
+  background: rgba(90, 20, 55, .75); opacity: 0; pointer-events: none; transition: opacity .35s;
+}
+#modal.on { opacity: 1; pointer-events: auto; }
+.modal-box { position: relative; width: min(94%, 560px); background: #fff; padding: .8rem; border-radius: 24px; transform: scale(.85); transition: transform .35s; }
+#modal.on .modal-box { transform: scale(1); }
+#modal-media { border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, #ffd1e3, #ff9dc2); display: grid; place-items: center; min-height: 220px; font-size: 4rem; }
+#modal-media img { display: block; width: 100%; max-height: 70vh; object-fit: contain; }
+#modal-cap { padding: .8rem .4rem .2rem; }
+#modal-close {
+  position: absolute; top: -14px; right: -6px; width: 38px; height: 38px; border: 0; border-radius: 50%;
+  background: var(--pink); color: #fff; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow);
+}
+
+/* ===== MÚSICA ===== */
+#music-btn {
+  position: fixed; top: 12px; right: 12px; z-index: 80; display: flex; align-items: center; gap: .5rem;
+  font: 600 .85rem 'Poppins', sans-serif; color: var(--ink); cursor: pointer; padding: .55rem .9rem;
+  background: rgba(255, 255, 255, .75); border: 1px solid #fff; border-radius: 999px; box-shadow: var(--shadow);
+}
+.eq { display: none; gap: 2px; align-items: flex-end; height: 14px; }
+.eq i { width: 3px; height: 100%; background: var(--pink); border-radius: 2px; animation: eq .8s ease-in-out infinite; transform-origin: bottom; }
+.eq i:nth-child(2) { animation-delay: .2s; } .eq i:nth-child(3) { animation-delay: .4s; }
+@keyframes eq { 50% { transform: scaleY(.25); } }
+#music-btn.playing .eq { display: flex; }
+
+/* ===== FINAL: corações subindo ===== */
+.rise { position: fixed; bottom: -40px; z-index: 55; pointer-events: none; animation: rise 5s ease-in forwards; }
+@keyframes rise { to { transform: translateY(-115vh) rotate(25deg); opacity: 0; } }
+
+/* ===== RESPONSIVO ===== */
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(3, 1fr); } .sec { padding: 6rem 2rem; } }
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .01s !important; transition-duration: .01s !important; } }
